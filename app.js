@@ -31,16 +31,16 @@ app.use(cookieParser());
 
 // SESSION SETUP
 app.use(
-  session({
-    secret: process.env.SESSION_SECRET,
-    cookie: { maxAge: 60000 }, // in millisec
-    store: new MongoStore({
-      mongooseConnection: mongoose.connection,
-      ttl: 24 * 60 * 60, // 1 day
-    }),
-    saveUninitialized: true,
-    resave: true,
-  })
+    session({
+        secret: process.env.SESSION_SECRET,
+        cookie: { maxAge: 60000 }, // in millisec
+        store: new MongoStore({
+            mongooseConnection: mongoose.connection,
+            ttl: 24 * 60 * 60, // 1 day
+        }),
+        saveUninitialized: true,
+        resave: true,
+    })
 );
 
 // below, site_url is used in partials/shop_head.hbs to perform ajax request (var instead of hardcoded)
@@ -51,8 +51,8 @@ app.use(flash());
 // CUSTOM MIDDLEWARES
 
 if (dev_mode === true) {
-  app.use(require("./middlewares/devMode")); // active le mode dev pour éviter les deconnexions
-  app.use(require("./middlewares/debugSessionInfos")); // affiche le contenu de la session
+    app.use(require("./middlewares/devMode")); // active le mode dev pour éviter les deconnexions
+    app.use(require("./middlewares/debugSessionInfos")); // affiche le contenu de la session
 }
 app.use(require("./middlewares/exposeLoginStatus")); // expose le status de connexion aux templates
 app.use(require("./middlewares/exposeFlashMessage")); // affiche les messages dans le template
@@ -61,18 +61,18 @@ app.use(require("./middlewares/exposeFlashMessage")); // affiche les messages da
 app.use("/", require("./routes/index"));
 
 // catch 404 and forward to error handler
-app.use(function (req, res, next) {
-  next(createError(404));
+app.use(function(req, res, next) {
+    next(createError(404));
 });
 
 // error handler
-app.use(function (err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get("env") === "development" ? err : {};
-  // render the error page
-  res.status(err.status || 500);
-  res.render("error");
+app.use(function(err, req, res, next) {
+    // set locals, only providing error in development
+    res.locals.message = err.message;
+    res.locals.error = req.app.get("env") === "development" ? err : {};
+    // render the error page
+    res.status(err.status || 500);
+    res.render("error");
 });
 
 module.exports = app;

@@ -1,6 +1,5 @@
 require("dotenv").config();
-require("./config/mongodb"); // database initial setup
-require("./helpers/hbs"); // utils for hbs templates
+
 
 // base dependencies
 const express = require("express");
@@ -8,19 +7,22 @@ const app = express();
 const createError = require("http-errors");
 const cookieParser = require("cookie-parser");
 const flash = require("connect-flash");
-const hbo = require("hbs");
+const hbs = require("hbs");
 const mongoose = require("mongoose");
 const session = require("express-session");
 const MongoStore = require("connect-mongo")(session);
 const dev_mode = false;
 const logger = require("morgan");
 
+require("./config/mongodb"); // database initial setup
+require("./helpers/hbs"); // utils for hbs templates
+
 // config logger (pour debug)
 app.use(logger("dev"));
 
 // initial config
 app.set("view engine", "hbs");
-app.set("views", __dirname + "/view");
+app.set("views", __dirname + "/views");
 app.use(express.static("public"));
 hbs.registerPartials(__dirname + "/views/partials");
 app.use(express.urlencoded({ extended: false }));
@@ -52,7 +54,6 @@ if (dev_mode === true) {
   app.use(require("./middlewares/devMode")); // active le mode dev pour éviter les deconnexions
   app.use(require("./middlewares/debugSessionInfos")); // affiche le contenu de la session
 }
-
 app.use(require("./middlewares/exposeLoginStatus")); // expose le status de connexion aux templates
 app.use(require("./middlewares/exposeFlashMessage")); // affiche les messages dans le template
 

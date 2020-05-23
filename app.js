@@ -53,12 +53,15 @@ app.use(flash());
 if (dev_mode === true) {
     app.use(require("./middlewares/devMode")); // active le mode dev pour éviter les deconnexions
     app.use(require("./middlewares/debugSessionInfos")); // affiche le contenu de la session
+
 }
 app.use(require("./middlewares/exposeLoginStatus")); // expose le status de connexion aux templates
 app.use(require("./middlewares/exposeFlashMessage")); // affiche les messages dans le template
 
 // routers
 app.use("/", require("./routes/index"));
+app.use(require("./routes/auth"));
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

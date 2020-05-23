@@ -30,7 +30,7 @@ So you won't have to deal that much with HTML/CSS ( Ahhh... this is perfect ; )
 
 ## Warning
 
-- A lazy programer made some mistakes in the source code, you may have to find/fix the bugs !
+-  OK A lazy programer made some mistakes in the source code, you may have to find/fix the bugs !
 
 ---
 

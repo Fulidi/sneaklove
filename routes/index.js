@@ -1,12 +1,16 @@
 const express = require("express");
 const router = new express.Router();
 
+const sneakerModel = require("./../models/Sneaker");
+
 console.log(`
 -----------------------------
 -----------------------------
 node says : wax on / wax off !
 -----------------------------
 -----------------------------`);
+
+/* ------- GET --------- */
 
 router.get("/home", (req, res) => {
     res.render("index");
@@ -20,13 +24,13 @@ router.get("/one-product/:id", (req, res) => {
     res.render("one_product");
 });
 
-router.get("/signup", (req, res) => {
-    res.render("signup");
-});
+/* ----- PRODUCTS MANAGE - ADD - EDIT ------- */
 
-router.get("/signin", (req, res) => {
-    res.render("signin");
-});
+
+
+/* ------- POST --------- */
+
+router.post("")
 
 
 module.exports = router;

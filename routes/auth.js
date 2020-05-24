@@ -9,9 +9,16 @@ const userModel = require("./../models/User");
 
 /* ---- SIGN IN / SIGN UP - GET ---- */
 
+// router.get("/signup", (req, res) => {
+//     res.render("signup");
+// });
+
+
 router.get("/signup", (req, res) => {
     res.render("signup");
 });
+
+
 
 router.get("/signin", (req, res) => {
     res.render("signin");
@@ -28,13 +35,13 @@ router.get("/logout", (req, res) => {
 
 /* ---- SIGN IN / SIGN UP - POST ---- */
 
-router.post("/signup", (req, res, next) => {
+router.post("/signin", (req, res, next) => {
     console.log(req.body.email, req.body.password);
     const userInfos = req.body;
-    if (!userInfos.email || !userInfos.password) {
-        req.flash("warning", "Attention, email et password sont requis!");
-        res.redirect("/signin");
-    } // verifier que le mail et le mdp correspondent en bdd. 
+    // if (!userInfos.email || !userInfos.password) {
+    //     req.flash("warning", "Attention, email et password sont requis!");
+    //     res.redirect("/signin");
+    // } // verifier que le mail et le mdp correspondent en bdd. 
     userModel
         .findOne({
             email: userInfos.email
@@ -57,6 +64,7 @@ router.post("/signup", (req, res, next) => {
             delete clone.password;
             req.session.currentUser = clone;
             console.log(">>>>>", req.session.currentUser)
+                .create()
 
             res.redirect("/products_manage")
         })
@@ -66,43 +74,56 @@ router.post("/signup", (req, res, next) => {
 });
 
 
-router.post("/signin", fileUploader.single("avatar"), (req, res, next) => {
+router.post("/signup", (req, res, next) => {
     const user = req.body;
-    console.log("coucou", req.file)
-    if (req.file) {
-        user.avatar = req.file.secure_url;
-    }
-    if (!user.username || !user.password || !user.email) {
-        console.log("DANS LE IF")
-            // retourner message d'erreur : remplir les champs requis + redirect
-        req.flash("error", "Merci de remplir tous les champs.");
-        res.redirect("/signin");
-    } else {
-        userModel.findOne({
-                email: user.email
-            })
-            .then((dbRes) => {
-                if (dbRes) { // retourner message d'erreur : utilisateur existant + redirect
-                    req.flash("warning", "Désolé, cet email n'est pas disponible.");
-                    res.redirect("/signin");
-                }
-            })
-            .catch((dbErr) => console.error(dbErr));
-        // si le programe est lu jusqu'ici, on va convertir le mot de passe en chaine cryptée. 
-        const salt = bcrypt.genSaltSync(10);
-        const hashed = bcrypt.hashSync(user.password, salt);
-        console.log("password crypté >>>>>", hashed);
-        user.password = hashed;
-        // on insère le nouvel utilisateur en bdd.
-        userModel
-            .create(user)
-            .then(dbRes => {
-                req.flash("success", "Inscription validée !");
-                res.redirect("/products_manage")
-            })
-            .catch(next);
-    }
+    console.log("KESKIA DANS REQ.BODY", req.body)
+    userModel
+        .findOne({
+            email: user.email
+        })
+        .then((dbRes) => {
+            if (dbRes) { // retourner message d'erreur : utilisateur existant + redirect
+                req.flash("warning", "Désolé, cet email n'est pas disponible.");
+                res.redirect("/signup");
+            }
+        })
+        .catch(next);
+    // si le programe est lu jusqu'ici, on va convertir le mot de passe en chaine cryptée. 
+    const salt = bcrypt.genSaltSync(10);
+    const hashed = bcrypt.hashSync(user.password, salt);
+    console.log("password crypté >>>>>", hashed);
+    user.password = hashed;
+    // on insère le nouvel utilisateur en bdd.
+    userModel
+        .create(user)
+        .then(dbRes => {
+            console.log(">>>>>>", user)
+            req.flash("success", "Inscription validée !");
+            res.redirect("/signin")
+        })
+        .catch(next);
+    //}
 });
+// router.post("/signup", (req, res, next) => {
+//     userModel
+//         .findOne({ email: req.body.email })
+//         .then((dbRes) => {
+//             if (dbRes) {
+//                 res.redirect("/signup");
+//             }
+//         })
+//         .catch(next);
 
+//     const salt = bcrypt.genSaltSync(10);
+//     const hashed = bcrypt.hashSync(req.body.password, salt);
+//     req.body.password = hashed;
+
+//     userModel
+//         .create(req.body)
+//         .then((dbRes) => {
+//             res.redirect("/signin");
+//         })
+//         .catch(next)
+// });
 
 module.exports = router;

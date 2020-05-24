@@ -77,32 +77,38 @@ router.post("/signin", (req, res, next) => {
 router.post("/signup", (req, res, next) => {
     const user = req.body;
     console.log("KESKIA DANS REQ.BODY", req.body)
-    userModel
-        .findOne({
-            email: user.email
-        })
-        .then((dbRes) => {
-            if (dbRes) { // retourner message d'erreur : utilisateur existant + redirect
-                req.flash("warning", "Désolé, cet email n'est pas disponible.");
-                res.redirect("/signup");
-            }
-        })
-        .catch(next);
-    // si le programe est lu jusqu'ici, on va convertir le mot de passe en chaine cryptée. 
-    const salt = bcrypt.genSaltSync(10);
-    const hashed = bcrypt.hashSync(user.password, salt);
-    console.log("password crypté >>>>>", hashed);
-    user.password = hashed;
-    // on insère le nouvel utilisateur en bdd.
-    userModel
-        .create(user)
-        .then(dbRes => {
-            console.log(">>>>>>", user)
-            req.flash("success", "Inscription validée !");
-            res.redirect("/signin")
-        })
-        .catch(next);
-    //}
+    if (!user.name || !user.password || !user.email) {
+        console.log("DANS LE IF")
+            // retourner message d'erreur : remplir les champs requis + redirect
+        req.flash("error", "Merci de remplir tous les champs.");
+        res.redirect("/signup");
+    } else {
+        userModel
+            .findOne({
+                email: user.email
+            })
+            .then((dbRes) => {
+                if (dbRes) { // retourner message d'erreur : utilisateur existant + redirect
+                    req.flash("warning", "Désolé, cet email n'est pas disponible.");
+                    res.redirect("/signup");
+                }
+            })
+            .catch(next);
+        // si le programe est lu jusqu'ici, on va convertir le mot de passe en chaine cryptée. 
+        const salt = bcrypt.genSaltSync(10);
+        const hashed = bcrypt.hashSync(user.password, salt);
+        console.log("password crypté >>>>>", hashed);
+        user.password = hashed;
+        // on insère le nouvel utilisateur en bdd.
+        userModel
+            .create(user)
+            .then(dbRes => {
+                console.log(">>>>>>", user)
+                req.flash("success", "Inscription validée !");
+                res.redirect("/signin")
+            })
+            .catch(next);
+    }
 });
 // router.post("/signup", (req, res, next) => {
 //     userModel

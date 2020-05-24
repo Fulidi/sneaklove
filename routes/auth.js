@@ -36,7 +36,7 @@ router.get("/logout", (req, res) => {
 /* ---- SIGN IN / SIGN UP - POST ---- */
 
 router.post("/signin", (req, res, next) => {
-    console.log(req.body.email, req.body.password);
+    console.log(">>>>> ICI", req.body.email, req.body.password);
     const userInfos = req.body;
     // if (!userInfos.email || !userInfos.password) {
     //     req.flash("warning", "Attention, email et password sont requis!");
@@ -64,7 +64,6 @@ router.post("/signin", (req, res, next) => {
             delete clone.password;
             req.session.currentUser = clone;
             console.log(">>>>>", req.session.currentUser)
-                .create()
 
             res.redirect("/products_manage")
         })

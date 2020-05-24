@@ -19,7 +19,7 @@ router.get("/signin", (req, res) => {
 
 /* ----- KILL IT ------ */
 
-router.get("/signout", (req, res) => {
+router.get("/logout", (req, res) => {
     req.session.destroy(() => {
         console.log("la session est détruite")
         res.redirect("/signin")
@@ -57,7 +57,7 @@ router.post("/signup", (req, res, next) => {
             delete clone.password;
             req.session.currentUser = clone;
             console.log(">>>>>", req.session.currentUser)
-                //redirection / profile
+
             res.redirect("/products_manage")
         })
         .catch(next);
@@ -74,7 +74,7 @@ router.post("/signin", fileUploader.single("avatar"), (req, res, next) => {
     }
     if (!user.username || !user.password || !user.email) {
         console.log("DANS LE IF")
-            // to do : retourner message d'erreur : remplir les champs requis + redirect
+            // retourner message d'erreur : remplir les champs requis + redirect
         req.flash("error", "Merci de remplir tous les champs.");
         res.redirect("/signin");
     } else {
@@ -82,7 +82,7 @@ router.post("/signin", fileUploader.single("avatar"), (req, res, next) => {
                 email: user.email
             })
             .then((dbRes) => {
-                if (dbRes) { //to do : retourner message d'erreur : utilisateur existant + redirect
+                if (dbRes) { // retourner message d'erreur : utilisateur existant + redirect
                     req.flash("warning", "Désolé, cet email n'est pas disponible.");
                     res.redirect("/signin");
                 }
@@ -98,7 +98,7 @@ router.post("/signin", fileUploader.single("avatar"), (req, res, next) => {
             .create(user)
             .then(dbRes => {
                 req.flash("success", "Inscription validée !");
-                res.redirect("/signin")
+                res.redirect("/products_manage")
             })
             .catch(next);
     }

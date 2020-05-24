@@ -5,6 +5,8 @@ const sneakerModel = require("./../models/Sneaker")
 const protectPrivateRoute = require("./../middlewares/protectPrivateRoute")
 
 
+/* -- PRODUCT ADD ET MANAGE POUR AFFICHER LES PRODUITS ET MANAGE */
+
 router.get("/products_add", (req, res, next) => {
     sneakerModel
         .find()

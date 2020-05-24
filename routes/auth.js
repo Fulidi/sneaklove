@@ -9,10 +9,6 @@ const userModel = require("./../models/User");
 
 /* ---- SIGN IN / SIGN UP - GET ---- */
 
-// router.get("/signup", (req, res) => {
-//     res.render("signup");
-// });
-
 
 router.get("/signup", (req, res) => {
     res.render("signup");
@@ -38,10 +34,6 @@ router.get("/logout", (req, res) => {
 router.post("/signin", (req, res, next) => {
     console.log(">>>>> ICI", req.body.email, req.body.password);
     const userInfos = req.body;
-    // if (!userInfos.email || !userInfos.password) {
-    //     req.flash("warning", "Attention, email et password sont requis!");
-    //     res.redirect("/signin");
-    // } // verifier que le mail et le mdp correspondent en bdd. 
     userModel
         .findOne({
             email: userInfos.email
@@ -72,6 +64,7 @@ router.post("/signin", (req, res, next) => {
 
 });
 
+// ---- POST SIGN UP 
 
 router.post("/signup", (req, res, next) => {
     const user = req.body;
@@ -109,26 +102,6 @@ router.post("/signup", (req, res, next) => {
             .catch(next);
     }
 });
-// router.post("/signup", (req, res, next) => {
-//     userModel
-//         .findOne({ email: req.body.email })
-//         .then((dbRes) => {
-//             if (dbRes) {
-//                 res.redirect("/signup");
-//             }
-//         })
-//         .catch(next);
 
-//     const salt = bcrypt.genSaltSync(10);
-//     const hashed = bcrypt.hashSync(req.body.password, salt);
-//     req.body.password = hashed;
-
-//     userModel
-//         .create(req.body)
-//         .then((dbRes) => {
-//             res.redirect("/signin");
-//         })
-//         .catch(next)
-// });
 
 module.exports = router;

@@ -3,7 +3,8 @@ const router = new express.Router();
 const bcrypt = require("bcrypt");
 const fileUploader = require("./../config/cloudinary");
 const userModel = require("./../models/User");
-
+const exposeFlashMessage = require("./../middlewares/exposeFlashMessage");
+const exposeLoginStatus = require("./../middlewares/exposeLoginStatus")
 
 
 
@@ -31,7 +32,7 @@ router.get("/logout", (req, res) => {
 
 /* ---- SIGN IN / SIGN UP - POST ---- */
 
-router.post("/signin", (req, res, next) => {
+router.post("/signin", exposeLoginStatus, exposeFlashMessage, (req, res, next) => {
     console.log(">>>>> ICI", req.body.email, req.body.password);
     const userInfos = req.body;
     userModel
@@ -41,6 +42,7 @@ router.post("/signin", (req, res, next) => {
         .then(user => {
             console.log("user trouvé par mail >>", user); // verifier que le mail existe en bdd
             if (!user) { // si non, retourner une erreur au client. 
+                console.log(">>>>>", user);
                 req.flash("error", "Identifiants incorrects");
                 res.redirect("/signin")
             }
@@ -48,9 +50,9 @@ router.post("/signin", (req, res, next) => {
                 userInfos.password,
                 user.password
             );
-            if (!checkPassword === false) {
+            if (checkPassword === false) {
                 req.flash("error", "Identifiants incorrects");
-                res.redirect("/signin")
+                res.redirect("/signin");
             }
             const { _doc: clone } = {...user };
             delete clone.password;

@@ -30,7 +30,6 @@ router.get("/one-product/:id", (req, res) => {
 
 /* ------- POST --------- */
 
-router.post("")
 
 
 module.exports = router;

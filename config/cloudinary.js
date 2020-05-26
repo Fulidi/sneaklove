@@ -1,4 +1,3 @@
-
 const cloudinary = require("cloudinary");
 const cloudinaryStorage = require("multer-storage-cloudinary");
 const multer = require("multer")
@@ -11,10 +10,10 @@ cloudinary.config({
 
 const storage = cloudinaryStorage({
     cloudinary,
-    folder: "user-pictures"
-    
+    folder: "sneakers-pictures"
+
 });
 
-const fileUploader = multer({ storage });
+const uploader = multer({ storage });
 
-module.exports = fileUploader;
+module.exports = uploader;

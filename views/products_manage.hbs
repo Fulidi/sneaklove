@@ -12,16 +12,17 @@
       </tr>
     </thead>
     <tbody>
+      {{#unless sneakers.length}}
+      <tr>
+        <td colspan="6">sorry no sneakers yet</td>
+      </tr>
+      {{/unless}}
+
       {{#each sneakers}}
       <tr class="table-row">
         {{> dashboard_sneaker_row}}
       </tr>
       {{/each}}
-      {{#unless sneakers}}
-      <tr>
-        <td colspan="6">sorry no sneakers yet</td>
-      </tr>
-      {{/unless}}
     </tbody>
   </table>
 </div>

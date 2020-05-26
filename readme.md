@@ -14,15 +14,15 @@ So you won't have to deal that much with HTML/CSS ( Ahhh... this is perfect ; )
 
 ## You'll find the mission details below
 
-- all sneakers are fetched from a mongo database
+- OK all sneakers are fetched from a mongo database
 
-- the final users must be able to signup and signin
+- OK  the final users must be able to signup and signin
 
-- logged in users are able to create new products
+- OK logged in users are able to create new products
 
-- logged in users are able to update a product
+- OK  logged in users are able to update a product
 
-- logged in users are able to delete some products
+- OK logged in users are able to delete some products
 
 - don't mess up the design !!!
 
@@ -36,7 +36,7 @@ So you won't have to deal that much with HTML/CSS ( Ahhh... this is perfect ; )
 
 ## Shop pages :
 
-- collection : display all products
+- OK collection : display all products
 - kids : display only kids products
 - women : display only women products
 - men : display only women products
@@ -91,7 +91,7 @@ Code delivered or modified after the due date will get malus points
 
 ## Bonuses
 
-- 1 make the shop responsive with flex and media-queries
+-  OK  1 make the shop responsive with flex and media-queries
 
 - 2 add some custom categories @ /prod-add
 

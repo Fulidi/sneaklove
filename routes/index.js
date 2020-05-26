@@ -17,19 +17,6 @@ router.get("/home", (req, res) => {
     res.render("index");
 });
 
-router.get("/sneakers/men", (req, res) => {
-    res.render("products");
-})
-
-router.get("/sneakers/women", (req, res) => {
-    res.render("products");
-})
-
-router.get("/sneakers/kids", (req, res) => {
-    res.render("products");
-})
-
-
 
 /* ------- POST --------- */
 

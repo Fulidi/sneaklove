@@ -93,6 +93,17 @@ router.post("/product_edit/:id", (req, res, next) => {
 
 });
 
+// ---- ONE PRODUCT ----
+
+router.get("/one_product/:id", (req, res, next) => {
+    sneakerModel
+        .findById(req.params.id)
+        .then((dbRes) => {
+            res.render("one_product", { sneaker: dbRes })
+        })
+        .catch(next);
+});
+
 
 
 // ------- DELETE --------

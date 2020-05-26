@@ -8,7 +8,7 @@ const tagModel = require("./../models/Tag")
 
 /* -- PRODUCT ADD ET MANAGE POUR AFFICHER LES PRODUITS ET MANAGE */
 
-router.get("/products_manage", (req, res) => {
+router.get("/products_manage", protectPrivateRoute, (req, res) => {
     res.render("products_manage")
 });
 
@@ -21,6 +21,14 @@ router.get("/products_manage", (req, res, next) => {
             }))
         .catch(next)
 });
+
+router.get("/dashboard_sneaker_row", (req, res, next) => {
+    sneakerModel
+        .find()
+        .then((dbRes) =>
+            res.render("products_manage", { sneakers: dbRes }))
+        .catch(next)
+})
 
 
 console.log("<<<<<<<<<");
